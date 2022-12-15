@@ -12,15 +12,53 @@ apache:
     source: https://github.com/apache/httpd
     publisher: "monk.io"
     icon: https://www.techrepublic.com/wp-content/uploads/2016/11/apachehero.jpg
+  services:
+    apache-http:
+      container: apache
+      port: <- $apache-http-port
+      protocol: tcp
+      host-port: <- $host-http-port 
+    apache-https:
+      container: apache
+      port: <- $apache-https-port
+      protocol: tcp
+      host-port: <- $host-https-port   
   containers:
     defines: containers
     apache:
       image: 'bitnami/apache'
       image-tag: <- `${apache-imagetag}`
       ports:
-        - 8080:8080
-        - 8443:8443
+        - <- `0.0.0.0:${host-http-port-number}:${apache-http-port-number}`      
+        - <- `0.0.0.0:${host-https-port-number}:${apache-https-port-number}`
+      paths:
+        - <- `${monk-volume-path}/apache/data:/app`  
+  files:
+    vhost-conf:
+      container: apache
+      mode: 0644
+      path: /vhosts/my_vhost.conf
+      contents: <<< files/vhost.conf 
+    httpd-conf:
+      container: apache
+      mode: 0644
+      path: /opt/bitnami/apache/conf/httpd.conf
+      contents: <<< files/httpd.conf           
   variables:
     apache-imagetag:
       type: string
       value: <- $apache-image-tag
+    apache-http-port-number:
+      env: APACHE_HTTP_PORT_NUMBER
+      type: int
+      value: <- $apache-http-port
+    apache-https-port-number:
+      env: APACHE_HTTPS_PORT_NUMBER
+      type: int
+      value: <- $apache-https-port
+    host-http-port-number:
+      type: int
+      value: <- $host-http-port 
+    host-https-port-number:
+      type: int
+      value: <- $host-https-port                 
