@@ -5,4 +5,4 @@ stack:
   runnable-list:
     - apache/apache
   variables:
-    apache-image-tag: 2.4.54
+    apache-image-tag: 2.4.54-debian-11-r55

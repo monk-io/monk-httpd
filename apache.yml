@@ -15,8 +15,8 @@ apache:
   containers:
     defines: containers
     apache:
-      image: 'bitnami/apache:2.4.54'
-      # image-tag: <- `${apache-imagetag}`
+      image: 'bitnami/apache'
+      image-tag: <- `${apache-imagetag}`
       ports:
         - 8080:8080
         - 8443:8443
