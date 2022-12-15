@@ -1,0 +1,8 @@
+namespace: apache
+
+stack:
+  defines: process-group
+  runnable-list:
+    - apache/apache
+  variables:
+    apache-image-tag: 2.4.54

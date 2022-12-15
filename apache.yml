@@ -1,0 +1,26 @@
+namespace: apache
+
+
+apache:
+  defines: runnable
+  metadata:
+    defines: metadata
+    name: apache
+    description: Mattermost is a secure, open source platform for communication, collaboration, and workflow orchestration across tools and teams.
+    tags: self hosted, http server, reverse proxy
+    website: https://httpd.apache.org/
+    source: https://github.com/apache/httpd
+    publisher: "monk.io"
+    icon: https://www.techrepublic.com/wp-content/uploads/2016/11/apachehero.jpg
+  containers:
+    defines: containers
+    apache:
+      image: 'bitnami/apache:2.4.54'
+      # image-tag: <- `${apache-imagetag}`
+      ports:
+        - 8080:8080
+        - 8443:8443
+  variables:
+    apache-imagetag:
+      type: string
+      value: <- $apache-image-tag
