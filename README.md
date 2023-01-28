@@ -168,7 +168,7 @@ group     apache/stack  local       -        -
 ## Stop, remove and clean up workloads and templates
 
 ```bash
-➜ monk purge -x apache/stack apache/apache
+➜ monk purge  --ii --rv --rs --no-confirm --rv --r apache/stack apache/apache
 
 ✔ apache/stack purged
 ✔ apache/apache purged

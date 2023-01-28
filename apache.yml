@@ -32,7 +32,9 @@ apache:
         - <- `0.0.0.0:${host-http-port-number}:${apache-http-port-number}`      
         - <- `0.0.0.0:${host-https-port-number}:${apache-https-port-number}`
       paths:
-        - <- `${monk-volume-path}/apache/data:/app`  
+        - <- `${monk-volume-path}/apache/data:/app`
+      cap-add:
+        - CAP_NET_BIND_SERVICE        
   files:
     vhost-conf:
       container: apache
