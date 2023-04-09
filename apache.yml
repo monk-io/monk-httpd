@@ -6,7 +6,10 @@ apache:
   metadata:
     defines: metadata
     name: apache
-    description: Mattermost is a secure, open source platform for communication, collaboration, and workflow orchestration across tools and teams.
+    description: |
+       The Apache HTTP Server, commonly known as Apache, is a widely-used, open-source web server software that provides a platform for serving web content over the Internet. 
+       
+       It is one of the most popular and widely-used web servers, powering a large percentage of websites globally.
     tags: self hosted, http server, reverse proxy
     website: https://httpd.apache.org/
     source: https://github.com/apache/httpd
@@ -34,7 +37,9 @@ apache:
       paths:
         - <- `${monk-volume-path}/apache/data:/app`
       cap-add:
-        - CAP_NET_BIND_SERVICE        
+        - CAP_NET_BIND_SERVICE
+        - MAC_ADMIN  
+        - SYS_ADMIN  
   files:
     vhost-conf:
       container: apache
