@@ -2,10 +2,9 @@
 
 This repository contains Monk.io template to deploy apache system either locally or on cloud of your choice (AWS, GCP, Azure, Digital Ocean).
 
-
 ## Start
 
-Set up Monk - https://docs.monk.io/docs/monk-in-10/
+Set up Monk - [https://docs.monk.io/docs/monk-in-10/](https://docs.monk.io/docs/monk-in-10/)
 
 Start `monkd` and login.
 
@@ -15,7 +14,8 @@ monk login --email=<email> --password=<password>
 
 ## Clone Monk apache repository
 
-In order to load templates and change configuration simply use below commands: 
+In order to load templates and change configuration simply use below commands:
+
 ```bash
 git clone https://github.com/monk-io/monk-apache
 
@@ -38,25 +38,22 @@ The current variables can be found in `stack.yaml/variables` section
 
 You can find configuration file (apache.xml) in `/files` directory in repository and can edit before the running kit.
 
+| Configuration File | Format Used | Directory in Container                 | Purpose                                                                                        |
+| ------------------ | ----------- | -------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **apache.xml**     | XML         | `/opt/apache/server/apache/apache.xml` | The apache.xml file defines some global configuration options that apply to all or many cores. |
 
-| Configuration File	 | Format Used | Directory in Container | Purpose 
-|----------|-------------|------|---------|
-| **apache.xml** | XML | `/opt/apache/server/apache/apache.xml` | The apache.xml file defines some global configuration options that apply to all or many cores.
+## Template variables
 
-
-##  Template variables
-
-| Variable | Description | Type | Example |
-|----------|-------------|------|---------|
-| **apache-image-tag** | apache image version. | string | latest |
-
-
-
+| Variable             | Description           | Type   | Example |
+| -------------------- | --------------------- | ------ | ------- |
+| **apache-image-tag** | apache image version. | string | latest  |
+| **http-port**        | apache image version. | int    | 8080    |
+| **http-port**        | apache image version. | int    | 8443    |
 
 ## Local Deployment
 
-First clone the repository and simply run below command after launching `monkd`:
-:
+| First clone the repository and simply run below command after launching `monkd`: |
+| :------------------------------------------------------------------------------: |
 
 ```bash
 ➜  monk load MANIFEST
@@ -75,17 +72,15 @@ First clone the repository and simply run below command after launching `monkd`:
 ✔ Got the list
 Type      Template    Repository  Version  Tags
 runnable  apache/apache   local       -        self hosted, search platform,
-group     apache/stack  local       -        -
 
 
-➜  monk run apache/stack
+➜  monk run apache/apache
 
-✔ Started local/apache/stack
+✔ Started local/apache/apache
 
 ```
 
-This will start the entire apache/stack. 
-
+This will start the entire apache/stack.
 
 ## Cloud Deployment
 
@@ -128,14 +123,13 @@ Your cluster has been created successfully.
 ```
 
 Once cluster is ready execute the same command as for local and select your cluster (the option will appear automatically).
+
 ```bash
 ➜  monk load MANIFEST
 
 ✨ Loaded:
  ├─🔩 Runnables:
  │  └─🧩 apache/apache
- ├─🔗 Process groups:
- │  └─🧩 apache/stack
  └─⚙️ Entity instances:
     └─🧩 apache/apache/metadata
 ✔ All templates loaded successfully
@@ -146,7 +140,6 @@ Once cluster is ready execute the same command as for local and select your clus
 ✔ Got the list
 Type      Template    Repository  Version  Tags
 runnable  apache/apache   local       -        self hosted, search platform,
-group     apache/stack  local       -        -
 
 ➜  monk run apache/stack
 
@@ -168,9 +161,8 @@ group     apache/stack  local       -        -
 ## Stop, remove and clean up workloads and templates
 
 ```bash
-➜ monk purge  --ii --rv --rs --no-confirm --rv --r apache/stack apache/apache
+➜ monk purge  --ii --rv --rs --no-confirm --rv --r  apache/apache
 
-✔ apache/stack purged
 ✔ apache/apache purged
 
 ```
