@@ -12,7 +12,7 @@ base:
       Apache HTTP Server is known for its stability, security, and performance, making it a popular choice for hosting websites and web applications.
       It supports a wide range of features, including SSL/TLS encryption, virtual hosting, URL rewriting, and more. Apache HTTP Server is also highly configurable, allowing users to customize its behavior to suit their specific needs.
       Overall, Apache HTTP Server is a reliable and powerful web server that has been a cornerstone of the internet for over two decades.
-    tags: Apache HTTP Server, Web Server, Open Source, HTTP Protocol, Web Hosting, Web Development, Server Administration, Linux, Security, Performance, Load Balancing, Reverse Proxy, SSL/TLS, Virtual Hosts, CGI, PHP, Python, Perl
+    tags: web hosting, virtual hosts, load balancing, php, http protocol, cgi, apache http server, perl, security, ssl/tls, server administration, reverse proxy, performance, python, web server, open source
     website: https://httpd.apache.org/
     source: https://github.com/apache/httpd
     publisher: monk.io
