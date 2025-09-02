@@ -20,7 +20,7 @@ base:
     private: true
   containers:
     apache:
-      image: bitnami/apache
+      image: bitnamilegacy/apache
       image-tag: latest
 
 apache:
