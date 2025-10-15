@@ -1,0 +1,147 @@
+---
+title: Apache HTTP Server
+description: Ready-to-run Apache HTTP Server container template you can run directly or inherit to integrate a web server into your infrastructure.
+primary_category: web-server
+tags: [httpd, apache, web-server, template, runnable, http]
+integration_type: template
+hosting_models: [self-hosted]
+website_url: https://httpd.apache.org/
+docs_url: https://httpd.apache.org/docs/
+publisher: monk.io
+---
+
+## Overview
+
+This template provides a production‑ready Apache HTTP Server instance as a Monk runnable. You can:
+
+- Run it directly to get a managed Apache web server with sensible defaults
+- Inherit it in your own runnable to seamlessly add a web server to your stack
+
+It exposes Apache on configurable HTTP/HTTPS ports, supports custom configuration files and virtual hosts, and can serve static content or act as a reverse proxy for your applications.
+
+## What this template manages
+
+- Apache HTTP Server container (`httpd` image, configurable tag)
+- Network service on configurable ports (default HTTP: 80, HTTPS: 443)
+- Custom Apache configuration files
+- Virtual host configurations
+- Volume mounts for static content and logs
+
+## Quick start (run directly)
+
+1) Load templates
+
+```bash
+monk load MANIFEST
+```
+
+2) Run Apache with defaults
+
+```bash
+monk run apache/apache
+```
+
+3) Customize configuration (recommended via inheritance)
+
+Running directly uses the defaults defined in this template's `variables`. For production use with custom configurations:
+
+- Preferred: inherit and customize variables as shown below.
+- Alternative: fork/clone and edit the `variables` in `apache.yml`, then `monk load MANIFEST` and run.
+
+Once started, access the web server at `http://localhost:8080` (or the configured port).
+
+## Configuration
+
+Key variables you can customize in this template:
+
+```yaml
+variables:
+  apache-image-tag: "latest"    # Apache container image tag
+  http-port: "8080"             # HTTP port to expose
+  https-port: "8443"            # HTTPS port to expose (if SSL enabled)
+  server-name: "localhost"      # ServerName directive
+  server-admin: "admin@localhost" # ServerAdmin email
+```
+
+Configuration files can be customized by mounting your own files from the `/files` directory:
+- `httpd.conf` - Main Apache configuration
+- `vhost.conf` - Virtual host configuration
+
+## Use by inheritance (recommended for apps)
+
+Inherit the Apache runnable in your application to serve static content or proxy to backend services. Example:
+
+```yaml
+namespace: myapp
+webserver:
+  defines: runnable
+  inherits: apache/apache
+  variables:
+    http-port: "80"
+    server-name: "myapp.example.com"
+backend:
+  defines: runnable
+  containers:
+    api:
+      image: myorg/api
+      ports:
+        - 3000:3000
+  connections:
+    webserver:
+      runnable: webserver
+      service: apache
+```
+
+For reverse proxy setup, customize the virtual host configuration:
+
+```bash
+monk run myapp/webserver
+```
+
+## Ports and connectivity
+
+- Service: `apache` on TCP ports `80` (HTTP) and `443` (HTTPS) by default
+- Configurable via `http-port` and `https-port` variables
+- From other runnables in the same process group, use `connection-hostname("<connection-name>")` to resolve the web server host.
+
+## Persistence and configuration
+
+- Config files: Mount custom configurations from the `files/` directory
+- Logs: Container logs accessible via `monk logs` command
+- Static content: Mount your web root directory as needed in inherited runnables
+- You can override any Apache configuration by providing custom `.conf` files
+
+## Features
+
+- Static file serving with high performance
+- Reverse proxy capabilities with mod_proxy
+- SSL/TLS support (mod_ssl)
+- URL rewriting (mod_rewrite)
+- Load balancing across multiple backends
+- Virtual hosts for multi-site hosting
+- Security modules (mod_security compatible)
+
+## Related templates
+
+- Combine with application backends (Node.js, Python, PHP, Go)
+- Use `certbot/` or `traefik/` for automated SSL/TLS certificates
+- Integrate with `prometheus-grafana/` for monitoring and metrics
+- Pair with `redis/` or `memcached/` for caching
+
+## Troubleshooting
+
+- If configuration changes don't take effect, ensure the container has restarted after updating config files.
+- For SSL/TLS issues, verify certificate paths and permissions.
+- Check logs for detailed error messages:
+
+```bash
+monk logs -l 500 -f apache/apache
+```
+
+- To test configuration syntax before running:
+
+```bash
+monk shell apache/apache
+apachectl configtest
+```
+
